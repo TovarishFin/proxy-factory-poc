@@ -13,8 +13,6 @@
     "lint:js": "eslint ./test"
   },
   "dependencies": {
-    "solium": "^1.1.6",
-    "truffle": "^4.1.7",
     "babel-eslint": ">= 8",
     "bignumber.js": "git+https://github.com/frozeman/bignumber.js-nolookahead.git",
     "eslint": ">= 4",
@@ -30,6 +28,8 @@
     "eslint-plugin-standard": "^3.0.1",
     "openzeppelin-solidity": "^1.9.0",
     "prettier": "^1.8.2",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "solium": "^1.1.6",
+    "truffle": "^4.1.7"
   }
 }
