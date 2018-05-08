@@ -6,17 +6,8 @@ pragma solidity 0.4.23;
 contract ProxyFactory {
   event ProxyDeployed(address proxyAddress, address targetAddress);
 
-  function createProxy(address _target, bytes _data)
+  function createProxy(address _target)
     public
-    returns (address proxyContract)
-  {
-    proxyContract = createProxyImpl(_target, _data);
-
-    emit ProxyDeployed(proxyContract, _target);
-  }
-  
-  function createProxyImpl(address _target, bytes _data)
-    internal
     returns (address proxyContract)
   {
     assembly {
@@ -30,14 +21,8 @@ contract ProxyFactory {
       if iszero(extcodesize(proxyContract)) {
         revert(0, 0)
       }
-      
-      // check if the _data.length > 0 and if it is forward it to the newly created contract
-      let dataLength := mload(_data) 
-      if iszero(iszero(dataLength)) {
-        if iszero(call(gas, proxyContract, 0, add(_data, 0x20), dataLength, 0, 0)) {
-          revert(0, 0)
-        }
-      }
     }
+
+    emit ProxyDeployed(proxyContract, _target);
   }
 }

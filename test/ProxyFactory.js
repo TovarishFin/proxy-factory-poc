@@ -23,7 +23,7 @@ describe('when deploying Example through ProxyFactory', () => {
     })
 
     it('should deploy an Example contract', async () => {
-      const tx = await pfy.createProxy(exm.address, 0)
+      const tx = await pfy.createProxy(exm.address)
 
       const { proxyAddress, targetAddress } = tx.logs[0].args
 
@@ -63,6 +63,45 @@ describe('when deploying Example through ProxyFactory', () => {
       )
       assert.equal(
         totalSupply.toString(),
+        actualTotalSupply.toString(),
+        'actualTotalSupply should match totalSupply given in constructor'
+      )
+    })
+
+    it('should create another with different variables', async () => {
+      const name2 = 'Other'
+      const symbol2 = 'OTR'
+      const decimals2 = 18
+      const totalSupply2 = new BigNumber(1e18)
+
+      const tx = await pfy.createProxy(exm.address)
+      const { proxyAddress } = tx.logs[0].args
+
+      const exp2 = await Example.at(proxyAddress)
+      await exp2.setup(name2, symbol2, decimals2, totalSupply2)
+
+      const actualName = await exp2.name()
+      const actualSymbol = await exp2.symbol()
+      const actualDecimals = await exp2.decimals()
+      const actualTotalSupply = await exp2.totalSupply()
+
+      assert.equal(
+        name2,
+        actualName,
+        'actualName should match name given in constructor'
+      )
+      assert.equal(
+        symbol2,
+        actualSymbol,
+        'actualSymbol should match symbol given in constructor'
+      )
+      assert.equal(
+        decimals2.toString(),
+        actualDecimals.toString(),
+        'actualDecimals should match decimals given in constructor'
+      )
+      assert.equal(
+        totalSupply2.toString(),
         actualTotalSupply.toString(),
         'actualTotalSupply should match totalSupply given in constructor'
       )
