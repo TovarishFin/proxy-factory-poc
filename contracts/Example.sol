@@ -22,5 +22,6 @@ contract Example is StandardToken {
     symbol = _symbol;
     decimals = _decimals;
     totalSupply_ = _totalSupply;
+    hasSetup = true;
   }
 }
